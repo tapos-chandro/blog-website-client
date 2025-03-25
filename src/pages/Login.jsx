@@ -1,38 +1,42 @@
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { Box, Button, Input, Text, VStack, Card,  } from "@chakra-ui/react";
 
 const Login = () => {
   return (
-    <div>
-      <div className="hero ">
-        <div className="hero-content flex-col">
-          <div className="card bg-base-100 w-full shadow-2xl">
-            <div className="card-body w-sm">
-                <h1 className="text-2xl font-bold text-center text-primary-text-color">Login</h1>
-              <form className="fieldset">
-                <label className="fieldset-label">Email</label>
-                <input type="email" className="input rounded-full focus:outline-hidden w-full" placeholder="Email" />
-                <label className="fieldset-label">Password</label>
-                <input
-                  type="password"
-                  className="input rounded-full focus:outline-hidden w-full"
-                  placeholder="Password"
-                />
-                <div>
-                  <a className="link link-hover text-primary-text-color">Forgot password?</a>
-                </div>
-                <button className="btn rounded-full bg-primary-color text-white mt-4">Login</button>
-              </form>
-              <div className="divider">OR</div>
-              <div className="flex justify-center gap-4 ">
-              <FcGoogle  className="text-3xl cursor-pointer"/>
-              </div>
-              <p className="text-center text-primary-text-color">Need an account? <Link to="/register" className="text-primary-color underline">Register</Link></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" bg="gray.50">
+      <Card p={6} boxShadow="xl" w={{ base: "90%", md: "400px" }} bg="white">
+        <VStack spacing={4} align="stretch">
+          <Text fontSize="2xl" fontWeight="bold" textAlign="center" color="blue.600">Login</Text>
+          
+          <form>
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input type="email" placeholder="Email" borderRadius="full" focusBorderColor="blue.400" />
+            </FormControl>
+            
+            <FormControl mt={4}>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" placeholder="Password" borderRadius="full" focusBorderColor="blue.400" />
+            </FormControl>
+            
+            <Text textAlign="right" color="blue.600" cursor="pointer" mt={2}>Forgot password?</Text>
+            
+            <Button colorScheme="blue" borderRadius="full" w="full" mt={4}>Login</Button>
+          </form>
+          
+          {/* <Divider />
+           */}
+          <Button leftIcon={<FcGoogle />} variant="outline" borderRadius="full" w="full">
+            Continue with Google
+          </Button>
+          
+          <Text textAlign="center" color="blue.600">
+            Need an account? <Link to="/register" style={{ textDecoration: "underline" }}>Register</Link>
+          </Text>
+        </VStack>
+      </Card>
+    </Box>
   );
 };
 

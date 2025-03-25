@@ -1,59 +1,59 @@
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { Box, Button, Input, Text, VStack, Card } from "@chakra-ui/react";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
+  const { createNewUser } = useAuth();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const formObjectData = Object.fromEntries(formData.entries());
+
+    console.log("Form Data as Object:", formObjectData);
+  };
+
   return (
-    <div>
-      <div className="hero ">
-        <div className="hero-content flex-col">
-          <div className="card bg-base-100 w-full shadow-2xl">
-            <div className="card-body w-sm">
-              <h1 className="text-2xl font-bold text-center text-primary-text-color">
-                Register
-              </h1>
-              <form className="fieldset">
-                <label className="fieldset-label">Name</label>
-                <input
-                  type="email"
-                  className="input rounded-full focus:outline-hidden w-full"
-                  placeholder="Name"
-                />
-                <label className="fieldset-label">Email</label>
-                <input
-                  type="email"
-                  className="input rounded-full focus:outline-hidden w-full"
-                  placeholder="Email"
-                />
-                <label className="fieldset-label">Password</label>
-                <input
-                  type="password"
-                  className="input rounded-full focus:outline-hidden w-full"
-                  placeholder="Password"
-                />
-                <div>
-                  <a className="link link-hover text-primary-text-color">
-                    Forgot password?
-                  </a>
-                </div>
-                <button className="btn rounded-full bg-primary-color text-white mt-4">
-                  Login
-                </button>
-              </form>
-              <div className="divider">OR</div>
-              <div className="flex justify-center gap-4 ">
-                <FcGoogle className="text-3xl cursor-pointer" />
-              </div>
-              <p className="text-center text-primary-text-color">
-                Already account?{" "}
-                <Link to="/login" className="text-primary-color underline">
-                  Login
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" bg="gray.50">
+      <Card p={6} boxShadow="xl" w={{ base: "90%", md: "400px" }} bg="white">
+        <VStack spacing={4} align="stretch">
+          <Text fontSize="2xl" fontWeight="bold" textAlign="center" color="blue.600">Register</Text>
+          
+          <form onSubmit={handleRegister}>
+            <FormControl>
+              <FormLabel>Name</FormLabel>
+              <Input type="text" placeholder="Name" name="name" borderRadius="full" focusBorderColor="blue.400" />
+            </FormControl>
+            
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input type="email" placeholder="Email" name="email" borderRadius="full" focusBorderColor="blue.400" />
+            </FormControl>
+            
+            <FormControl mt={4}>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" placeholder="Password" name="password" borderRadius="full" focusBorderColor="blue.400" />
+            </FormControl>
+            
+            <Text textAlign="right" color="blue.600" cursor="pointer" mt={2}>Forgot password?</Text>
+            
+            <Button type="submit" colorScheme="blue" borderRadius="full" w="full" mt={4}>Register</Button>
+          </form>
+          
+          {/* <Divider /> */}
+          
+          <Button leftIcon={<FcGoogle />} variant="outline" borderRadius="full" w="full">
+            Continue with Google
+          </Button>
+          
+          <Text textAlign="center" color="blue.600">
+            Already have an account? <Link to="/login" style={{ textDecoration: "underline" }}>Login</Link>
+          </Text>
+        </VStack>
+      </Card>
+    </Box>
   );
 };
 
