@@ -1,2 +1,16 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@theme {
+    --font-display: "Satoshi", "sans-serif";
+    --breakpoint-3xl: 120rem;
+    --color-primary-color: #40a853;
+    --color-secondary-color: #ffffff;
+    --color-primary-text-color: #5e5e5e;
+    --color-secondary-text-color: #525252;
+
+  }
+  .active {
+    text-decoration: underline;
+    color: #40a853
+  }
