@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../../src/assets/smal-logo.png";
+import useAuth from "../hooks/useAuth";
 
 const NavBar = () => {
   // const { user, logout} = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(false);
+  // const [user, setUser] = useState(false);
   const { pathname } = useLocation();
+
+  const {user} = useAuth();
+  console.log(user)
 
   const naveLinks = (
     <>
@@ -69,7 +73,7 @@ const NavBar = () => {
   );
 
   return (
-    <nav className="p-4  fixed top-0  z-50 w-full py-5 ">
+    <nav className="p-4  fixed top-0  z-50 w-full py-5 bg-white ">
       <div className="container mx-auto flex justify-between items-center border-1 border-gray-200 rounded-full px-5 py-2 ">
         {/* Logo */}
         <Link

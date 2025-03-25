@@ -5,7 +5,7 @@ import NavBar from '../sheard/NavBar';
 const Root = () => {
     return (
         <div>
-            <div className='py-14'>
+            <div className='py-14 bg-white '>
                 <NavBar/>
             </div>
             <Outlet/>
