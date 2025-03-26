@@ -1,10 +1,27 @@
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
-import { Box, Button, Input, Text, VStack, Card } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Text,
+  VStack,
+  Card,
+  FormControl,
+  FormLabel,
+  Divider,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const { createNewUser } = useAuth();
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
+  const [error, setError] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -13,43 +30,133 @@ const Register = () => {
     const formObjectData = Object.fromEntries(formData.entries());
 
     console.log("Form Data as Object:", formObjectData);
+
+    if (!/[a-zA-Z0-9]{6,}/.test(formObjectData?.password)) {
+      return setError(" Is less than 6 characters");
+    } else if (!/(?=.*[A-Z])/.test(formObjectData?.password)) {
+      return setError("don't have a capital letter");
+    } else if (!/(?=.*[!#$%&?"])/.test(formObjectData?.password)) {
+      return setError("Don't have a special character");
+    } else if (/^[^0-9]*$/.test(formObjectData?.password)) {
+      return setError("Don't have a numeric character");
+    } else {
+      setError("");
+    }
+
+
+    createNewUser(formObjectData.email, formObjectData.password)
+    .then((res) => {
+      console.log("User created successfully", res);
+    })
+    .catch((error) => {
+      console.log("Error creating user", error);
+    }); 
+
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minH="100vh" bg="gray.50">
-      <Card p={6} boxShadow="xl" w={{ base: "90%", md: "400px" }} bg="white">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      bg="gray.50"
+    >
+      <Card p={6} boxShadow="xl" w={{ base: "100%", md: "400px" }} bg="white"  border={"1px"} borderColor={"primary"}>
         <VStack spacing={4} align="stretch">
-          <Text fontSize="2xl" fontWeight="bold" textAlign="center" color="blue.600">Register</Text>
-          
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="center"
+            color="dark"
+          >
+            Register
+          </Text>
+
           <form onSubmit={handleRegister}>
             <FormControl>
-              <FormLabel>Name</FormLabel>
-              <Input type="text" placeholder="Name" name="name" borderRadius="full" focusBorderColor="blue.400" />
+              <FormLabel color={"gray"}>Name</FormLabel>
+              <Input
+                type="text"
+                placeholder="Name"
+                name="name"
+                color={"gray"}
+                borderRadius="full"
+                required
+                focusBorderColor="primary"
+              />
             </FormControl>
-            
+
             <FormControl mt={4}>
-              <FormLabel>Email</FormLabel>
-              <Input type="email" placeholder="Email" name="email" borderRadius="full" focusBorderColor="blue.400" />
+              <FormLabel color={"gray"}>Email</FormLabel>
+              <Input
+                type="email"
+                color={"gray"}
+                placeholder="Email"
+                name="email"
+                borderRadius="full"
+                focusBorderColor="primary"
+                required
+              />
             </FormControl>
-            
-            <FormControl mt={4}>
-              <FormLabel>Password</FormLabel>
-              <Input type="password" placeholder="Password" name="password" borderRadius="full" focusBorderColor="blue.400" />
-            </FormControl>
-            
-            <Text textAlign="right" color="blue.600" cursor="pointer" mt={2}>Forgot password?</Text>
-            
-            <Button type="submit" colorScheme="blue" borderRadius="full" w="full" mt={4}>Register</Button>
+
+            <FormLabel color={"gray"}>Password</FormLabel>
+            <InputGroup size="md" rounded={"full"}>
+              <Input
+                pr="4.5rem"
+                type={show ? "text" : "password"}
+                placeholder="Enter password"
+                borderRadius={"full"}
+                color={"gray"}
+                name="password"
+                focusBorderColor="primary"
+                required
+              />
+              <InputRightElement width="4.5rem">
+                <Button h="1.75rem" size="sm" onClick={handleClick}>
+                  {show ? (
+                    <FaEye color="gray" />
+                  ) : (
+                    <FaRegEyeSlash color="gray" />
+                  )}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <Text color="red" fontSize="sm">{error}</Text>
+            <Text textAlign="right" color="blue" cursor="pointer" mt={2}>
+              Forgot password?
+            </Text>
+
+            <Button
+              type="submit"
+              color="light"
+              _hover={{ bg: "secondary", color: "dark" }}
+              bg="primary"
+              borderRadius="full"
+              w="full"
+              mt={4}
+            >
+              Register
+            </Button>
           </form>
-          
-          {/* <Divider /> */}
-          
-          <Button leftIcon={<FcGoogle />} variant="outline" borderRadius="full" w="full">
+
+          <Divider color={"gray"} />
+
+          <Button
+            leftIcon={<FcGoogle />}
+            variant="outline"
+            borderRadius="full"
+            w="full"
+            _hover={{ color: "gray" }}
+            borderColor={"primary"}
+          >
             Continue with Google
           </Button>
-          
-          <Text textAlign="center" color="blue.600">
-            Already have an account? <Link to="/login" style={{ textDecoration: "underline" }}>Login</Link>
+
+          <Text textAlign="center" color="blue">
+            Already have an account?
+            <Link to="/login" style={{ textDecoration: "underline" }}>
+              Login
+            </Link>
           </Text>
         </VStack>
       </Card>

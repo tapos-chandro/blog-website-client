@@ -6,7 +6,6 @@ import {
   Image,
   Button,
   VStack,
-  MenuButton,
   useTheme,
 } from "@chakra-ui/react";
 import { IoMdMenu } from "react-icons/io";
