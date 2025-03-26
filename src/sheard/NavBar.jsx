@@ -78,8 +78,8 @@ const primaryColor = theme.colors.primary
       <Flex justify="space-between" align="center" maxW="1200px" mx="auto">
         {/* Logo */}
         <Link to="/">
-          <Flex align="center">
-            <Image src={logo} alt="Logo" boxSize="40px" mr={2} />
+          <Flex align="center"  color={primaryColor} fontWeight={700}> 
+            <Image src={logo} alt="Logo" boxSize="40px"  mr={2} />
             Blogs
           </Flex>
         </Link>
