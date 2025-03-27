@@ -11,6 +11,7 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
+  Divider,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
@@ -20,7 +21,7 @@ import Swal from "sweetalert2";
 const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const { loginUser } = useAuth();
+  const { loginUser, googleLogin } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -56,10 +57,28 @@ const Login = () => {
       })
       .catch((error) => {
         console.log("Error logging in user", error);
+        setError("Email or password is incorrect");
       });
   };
 
-  console.log(error);
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then((res) => {
+        if(res?.user?.email){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your Login is Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setError("Error logging in with Google");
+      })
+  }
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
@@ -137,8 +156,8 @@ const Login = () => {
             </Button>
           </form>
 
-          {/* <Divider />
-           */}
+           <Divider color={"gray"} />
+           
           <Button
             leftIcon={<FcGoogle />}
             border={"1px"}
@@ -147,6 +166,7 @@ const Login = () => {
             _hover={{ color: "gray" }}
             borderRadius="full"
             w="full"
+            onClick={ handleGoogleLogin}
           >
             Continue with Google
           </Button>

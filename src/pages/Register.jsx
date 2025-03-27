@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -16,12 +16,14 @@ import {
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const { createNewUser } = useAuth();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -43,15 +45,22 @@ const Register = () => {
       setError("");
     }
 
-
     createNewUser(formObjectData.email, formObjectData.password)
-    .then((res) => {
-      console.log("User created successfully", res);
-    })
-    .catch((error) => {
-      console.log("Error creating user", error);
-    }); 
-
+      .then((res) => {
+        if (res?.user?.email) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your Login is Successful",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/login");
+        }
+      })
+      .catch((error) => {
+        console.log("Error creating user", error);
+      });
   };
 
   return (
@@ -61,7 +70,14 @@ const Register = () => {
       alignItems="center"
       bg="gray.50"
     >
-      <Card p={6} boxShadow="xl" w={{ base: "100%", md: "400px" }} bg="white"  border={"1px"} borderColor={"primary"}>
+      <Card
+        p={6}
+        boxShadow="xl"
+        w={{ base: "100%", md: "400px" }}
+        bg="white"
+        border={"1px"}
+        borderColor={"primary"}
+      >
         <VStack spacing={4} align="stretch">
           <Text
             fontSize="2xl"
@@ -121,7 +137,9 @@ const Register = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
-            <Text color="red" fontSize="sm">{error}</Text>
+            <Text color="red" fontSize="sm">
+              {error}
+            </Text>
             <Text textAlign="right" color="blue" cursor="pointer" mt={2}>
               Forgot password?
             </Text>
