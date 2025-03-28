@@ -167,9 +167,6 @@ const NavBar = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      <Button onClick={onClose} color={"red"}>
-        Close
-      </Button>;
       onClose();
     });
   };
@@ -199,15 +196,16 @@ const NavBar = () => {
         {/* Mobile Menu Button */}
         <Box display={{ base: "block", md: "none" }}>
           {isToggle ? (
-            <IoMdMenu
-              style={{ fontSize: "2rem", color: primaryColor }}
-              onClick={() => setIsToggle(!isToggle)}
-            />
-          ) : (
+   
             <RxCross2
-              style={{ fontSize: "2rem", color: primaryColor }}
-              onClick={() => setIsToggle(!isToggle)}
-            />
+            style={{ fontSize: "2rem", color: primaryColor }}
+            onClick={() => setIsToggle(!isToggle)}
+          />
+          ) : (
+            <IoMdMenu
+            style={{ fontSize: "2rem", color: primaryColor }}
+            onClick={() => setIsToggle(!isToggle)}
+          />
           )}
         </Box>
 
