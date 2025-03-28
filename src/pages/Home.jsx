@@ -1,3 +1,4 @@
+import NewsLitter from "../components/NewsLitter";
 import ResentPost from "../components/ResentPost";
 import Slider from "../components/Slider";
 
@@ -6,6 +7,7 @@ const Home = () => {
         <div>
             <Slider></Slider>
             <ResentPost/>
+            <NewsLitter/>
         </div>
     );
 };
