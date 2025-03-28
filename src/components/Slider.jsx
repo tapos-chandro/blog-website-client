@@ -18,13 +18,13 @@ const Slider = () => {
             id: 1,
             image: banner1,
             title: "Explore, Learn, and Grow",
-            description: "A captivating background of a person deeply immersed in a book, symbolizing knowledge and curiosity. <br></br>Unlock new ideas and insights with every read."
+            description: "A captivating background of a person deeply immersed in a book, symbolizing knowledge and curiosity. Unlock new ideas and insights with every read."
         },
         {
             id: 2,
             image: banner2,
             title: "Stay Ahead with the Latest Trends",
-            description: "A dynamic backdrop featuring a futuristic digital workspace, representing innovation and progress. <br></br>Stay informed, stay inspired."
+            description: "A dynamic backdrop featuring a futuristic digital workspace, representing innovation and progress. Stay informed, stay inspired."
         },
         {
             id: 3,
@@ -49,7 +49,7 @@ const Slider = () => {
     >
       
       {
-        bannersData.map(banner => <SwiperSlide>
+        bannersData?.map(banner=> <SwiperSlide key={banner?.id}>
             <Box
               bgImage={`url(${banner?.image})`}
               bgPosition="center"
@@ -59,7 +59,7 @@ const Slider = () => {
               rounded={10}
               display={"flex"}
               justifyContent={"center"}
-              key={banner?.id}
+             
             >
               <Box
                 bg={"#00000063"}
@@ -76,6 +76,7 @@ const Slider = () => {
                     zIndex={9999}
                     fontWeight={700}
                     color={"light"}
+                    
                   >
                    
                    {banner?.title}
