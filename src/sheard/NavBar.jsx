@@ -32,7 +32,7 @@ import Swal from "sweetalert2";
 
 const NavBar = () => {
   const { pathname } = useLocation();
-  const { user, updateUserProfile } = useAuth();
+  const { user, updateUserProfile , signOutUser} = useAuth();
   const [isToggle, setIsToggle] = useState(true);
   const theme = useTheme();
   const primaryColor = theme.colors.primary;
@@ -41,6 +41,16 @@ const NavBar = () => {
   const [uploadUrl, setUploadUrl] = useState("");
   const inputRef = useRef(null);
   const handleClick = () => inputRef.current.click();
+
+
+
+  const handleSignOutUser = () => {
+    signOutUser()
+    .then(()  => {
+      console.log('successfully sign out user')
+
+    })
+  }
 
   const naveLinks = (
     <>
@@ -59,7 +69,7 @@ const NavBar = () => {
       justifyContent={"center"}
       gap={4}
     >
-      <Button bg="red" borderRadius={"full"} h="8" color="light">
+      <Button onClick={handleSignOutUser} bg="red" borderRadius={"full"} h="8" color="light">
         Sign Out
       </Button>
       {user?.photoURL ? (
@@ -163,6 +173,8 @@ const NavBar = () => {
       onClose();
     });
   };
+
+
 
   return (
     <Box
