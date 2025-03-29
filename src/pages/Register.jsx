@@ -19,7 +19,7 @@ import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const Register = () => {
-  const { createNewUser } = useAuth();
+  const { createNewUser,googleLogin } = useAuth();
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const [error, setError] = useState("");
@@ -62,6 +62,24 @@ const Register = () => {
         console.log("Error creating user", error);
       });
   };
+    const handleGoogleLogin = () => {
+      googleLogin()
+        .then((res) => {
+          if(res?.user?.email){
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your Login is Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          setError("Error logging in with Google", error);
+        })
+    }
 
   return (
     <Box
@@ -166,6 +184,7 @@ const Register = () => {
             w="full"
             _hover={{ color: "gray" }}
             borderColor={"primary"}
+            onClick={googleLogin}
           >
             Continue with Google
           </Button>

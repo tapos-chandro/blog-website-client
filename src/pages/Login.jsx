@@ -76,7 +76,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        setError("Error logging in with Google");
+        setError("Error logging in with Google", error);
       })
   }
 
