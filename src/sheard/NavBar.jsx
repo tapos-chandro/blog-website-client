@@ -29,6 +29,7 @@ import { useRef } from "react";
 
 import { FiUpload } from "react-icons/fi";
 import Swal from "sweetalert2";
+import useImageUploaded from "../hooks/useImageUploaded";
 
 const NavBar = () => {
   const { pathname } = useLocation();
@@ -38,11 +39,10 @@ const NavBar = () => {
   const primaryColor = theme.colors.primary;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [image, setImage] = useState(null);
-  const [uploadUrl, setUploadUrl] = useState("");
+  // const [uploadUrl, setUploadUrl] = useState("");
   const inputRef = useRef(null);
   const handleClick = () => inputRef.current.click();
-
-
+  const uploadUrl = useImageUploaded(image)
 
   const handleSignOutUser = () => {
     signOutUser()
@@ -124,34 +124,6 @@ const NavBar = () => {
       </Button>
     </>
   );
-
-  useEffect(() => {
-    const uploadImage = async () => {
-      const formData = new FormData();
-      formData.append("image", image);
-
-      try {
-        const response = await fetch(
-          `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_API_KYE}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-        if (data.success) {
-          console.log("uploaded image url", data.data.url);
-          setUploadUrl(data.data.url);
-        } else {
-          console.error("uploaded failed", data);
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    uploadImage();
-  }, [image]);
 
   // The profile image and name set
 

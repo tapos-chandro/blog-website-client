@@ -17,7 +17,7 @@ import {
 import React from "react";
 import SectionTitle from "./SectionTitle";
 
-const ResentPost = () => {
+const ResentPosts = () => {
   return (
     <Box>
       <SectionTitle title={"Resent Posts"} />
@@ -79,4 +79,4 @@ const ResentPost = () => {
   );
 };
 
-export default ResentPost;
+export default ResentPosts;
