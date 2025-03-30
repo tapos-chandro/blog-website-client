@@ -5,6 +5,9 @@ import BloggingTips from "../components/TrendingBlogs";
 import ResentPosts from "../components/ResentPosts";
 
 const Home = () => {
+
+  
+
   return (
     <div>
       <Slider></Slider>
@@ -13,7 +16,6 @@ const Home = () => {
       <Box py={"52"}>
         <NewsLitter titleColor={"dark"} />
       </Box>
-    
     </div>
   );
 };

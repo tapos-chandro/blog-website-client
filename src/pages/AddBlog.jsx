@@ -1,31 +1,70 @@
-import { Box, Button, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import useImageUploaded from "../hooks/useImageUploaded";
 import { FiUpload } from "react-icons/fi";
+import useAxios from "../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const AddBlog = () => {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleClick = () => inputRef.current.click();
-  const uploadUrl = useImageUploaded(image);
+  const { uploadUrl, setUploadUrl } = useImageUploaded(image);
+  const categories = [
+    "Technology",
+    "Health",
+    "Travel",
+    "Education",
+    "Business",
+  ];
+  const instance = useAxios();
 
+  const handAddBlog = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const formObject = Object.fromEntries(formData.entries());
+    const formFinalData = { ...formObject, image: uploadUrl };
 
-  const handAddBlog = (e) => {
-    e.preventDefault() ;
-    const formData = new FormData(e.target)
-    const formObject = Object.fromEntries(formData.entries())
-    const formFinalData = {...formObject, file:uploadUrl}
-    console.log(formFinalData)
+    const res = await instance.post("/add-blog", formFinalData);
+    console.log(res)
 
+    if (res.data.acknowledged === true) {
 
-  }
-  
+      form.reset();
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your Login is Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    setUploadUrl(null);
+    setImage(null);
+  };
 
   return (
-    <Box my={20} maxW={"3xl"} mx={"auto"} border={"1px"} borderColor={"primary"} rounded={"2xl"} p={10}>
+    <Box
+      p={{ lg: "10", md: "10", base: "3.5" }}
+      my={5}
+      maxW={{ lg: "3xl" }}
+      mx={"auto"}
+      border={"1px"}
+      borderColor={"primary"}
+      rounded={"2xl"}
+    >
       <Text
         textAlign={"center"}
-        fontSize={"xl"}
+        fontSize={{ lg: "xl" }}
         fontWeight={"bold"}
         textColor={"dark"}
         mb={6}
@@ -34,38 +73,89 @@ const AddBlog = () => {
       </Text>
       <Box>
         <form onSubmit={handAddBlog}>
-          <Box display={"flex"} gap={4} flexDirection={"column"}>
-            <Input placeholder="Enter title " name="title" required rounded={"full"} borderColor={"primary"} color={"gray"} type="text"/>
-            <Input placeholder="Enter Short Description " required name="sortDescription" rounded={"full"} borderColor={"primary"} color={"gray"} type="text" />
-            <Input placeholder="Enter Long Description " required name="logDescription" rounded={"full"} borderColor={"primary"} color={"gray"} type="text"/>
-            <Box>
+          <Box display={"flex"} gap={2} flexDirection={"column"}>
+            <FormControl>
+              <FormLabel color={"gray"}>Title</FormLabel>
               <Input
-                type="file"
-                ref={inputRef}
-                onChange={(e) => setImage(e.target.files[0])}
-                display="none"
+                placeholder="Enter title "
+                name="title"
                 required
-                name="file"
-                
+                rounded={"full"}
+                borderColor={"primary"}
+                color={"gray"}
+                type="text"
               />
-              <Button
+            </FormControl>
+            <FormControl>
+              <FormLabel color={"gray"}>Sort description</FormLabel>
+              <Input
+                placeholder="Enter Short Description "
+                required
+                name="sortDescription"
+                rounded={"full"}
+                borderColor={"primary"}
+                color={"gray"}
+                type="text"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel color={"gray"}>Long description</FormLabel>
+              <Input
+                placeholder="Enter Long Description "
+                required
+                name="logDescription"
+                rounded={"full"}
+                borderColor={"primary"}
+                color={"gray"}
+                type="text"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel color={"gray"}>Select Category</FormLabel>
+              <Select
+                placeholder="Select Category"
+                defaultValue={"Select Category"}
+                rounded={"full"}
+                name="category"
+                required
                 border={"1px"}
-
-                color="gray"
-                leftIcon={<FiUpload />}
-                onClick={handleClick}
-                variant="solid"
-                size="lg"
-                px={8}
-                rounded="full"
-                boxShadow="md"
-                w="full"
-                transition="all 0.2s"
-              borderColor={"primary"}
+                borderColor={"primary"}
+                color={"gray"}
               >
-                Upload Your Profile Image
-              </Button>
-            </Box>
+                {categories.map((category, index) => (
+                  <option key={index}>{category}</option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel color={"gray"}>Chose Photo</FormLabel>
+              <Box>
+                <Input
+                  type="file"
+                  ref={inputRef}
+                  onChange={(e) => setImage(e.target.files[0])}
+                  display="none"
+                  required
+                  name="image"
+                />
+                <Button
+                  border={"1px"}
+                  color="gray"
+                  leftIcon={<FiUpload />}
+                  onClick={handleClick}
+                  variant="solid"
+                  size="md"
+                  px={8}
+                  rounded="full"
+                  boxShadow="md"
+                  w="full"
+                  transition="all 0.2s"
+                  borderColor={"primary"}
+                >
+                  {uploadUrl ? uploadUrl : "Added Blog Image"}
+                </Button>
+              </Box>
+            </FormControl>
             <Button
               w="full"
               bg={"primary"}

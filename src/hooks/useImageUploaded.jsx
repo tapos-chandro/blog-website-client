@@ -4,7 +4,7 @@ import { useState } from "react";
 const useImageUploaded = (image) => {
 
 
-    const [uploadUrl, setUploadUrl] = useState()
+    const [uploadUrl, setUploadUrl] = useState(null)
 
 
       const uploadImage = async () => {
@@ -33,7 +33,7 @@ const useImageUploaded = (image) => {
       };
       uploadImage();
 
-      return uploadUrl
+      return {uploadUrl , setUploadUrl}
 };
 
 export default useImageUploaded;

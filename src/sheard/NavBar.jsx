@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   Box,
@@ -42,7 +42,7 @@ const NavBar = () => {
   // const [uploadUrl, setUploadUrl] = useState("");
   const inputRef = useRef(null);
   const handleClick = () => inputRef.current.click();
-  const uploadUrl = useImageUploaded(image)
+  const {uploadUrl} = useImageUploaded(image)
 
   const handleSignOutUser = () => {
     signOutUser()
