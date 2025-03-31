@@ -1,8 +1,10 @@
 import { Box, Button, Card, CardBody, CardFooter, Divider, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 const Cards = ({blog}) => {
-  const {title, sortDescription, logDescription, category, image} = blog
+  const {title, sortDescription, logDescription, category, image , _id} = blog
   return (
     <Card>
       <CardBody>
@@ -11,6 +13,8 @@ const Cards = ({blog}) => {
           alt={title}
           borderRadius="lg"
           w='full'
+          h={"44"}
+          objectFit={"cover"}
         />
         <Stack mt="6" spacing="3">
           <Heading size="md" color={"dark"}>
@@ -37,6 +41,7 @@ const Cards = ({blog}) => {
             </Button>
           </Box>
           <Box>
+          <Link to={`/details/${_id}`}>
             <Button
               border={"1px"}
               bg={"primary"}
@@ -46,6 +51,7 @@ const Cards = ({blog}) => {
             >
               Details
             </Button>
+            </Link>
           </Box>
         </Flex>
       </CardFooter>

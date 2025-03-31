@@ -7,6 +7,7 @@ import AddBlog from "../pages/AddBlog";
 import AllBlogs from "../pages/AllBlogs";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
 import Wishlist from "../pages/Wishlist";
+import Details from "../pages/Details";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: "wishlist",
                 element: <Wishlist/>
+            },
+            {
+                path: "details/:id",
+                element: <Details/>
             },
         ]
     }

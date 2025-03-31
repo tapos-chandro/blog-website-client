@@ -12,30 +12,29 @@ import useImageUploaded from "../hooks/useImageUploaded";
 import { FiUpload } from "react-icons/fi";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import moment  from  'moment';
 
 const AddBlog = () => {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleClick = () => inputRef.current.click();
   const { uploadUrl, setUploadUrl } = useImageUploaded(image);
-  const categories = [
-    "Technology",
-    "Health",
-    "Travel",
-    "Education",
-    "Business",
-  ];
-  const instance = useAxios();
+  const navigate = useNavigate()
+  const categories =["Technology", "Health", "Travel", "Education", "Business", "Lifestyle"];
+  const axiosInstance = useAxios();
+
+console.log(moment().format())
 
   const handAddBlog = async (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     const formObject = Object.fromEntries(formData.entries());
-    const formFinalData = { ...formObject, image: uploadUrl };
+    const formFinalData = { ...formObject, image: uploadUrl, time: moment().format()};
 
-    const res = await instance.post("/add-blog", formFinalData);
-    console.log(res)
+    const res = await axiosInstance.post("/add-blog", formFinalData);
+
 
     if (res.data.acknowledged === true) {
 
@@ -47,9 +46,10 @@ const AddBlog = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+      navigate('/all-blogs')
     }
-    setUploadUrl(null);
-    setImage(null);
+    setUploadUrl('');
+    setImage('');
   };
 
   return (
