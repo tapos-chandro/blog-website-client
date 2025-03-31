@@ -5,6 +5,8 @@ const useImageUploaded = (image) => {
 
 
     const [uploadUrl, setUploadUrl] = useState(null)
+    const [loading, seLoading] = useState(true)
+  
 
 
       const uploadImage = async () => {
@@ -22,10 +24,13 @@ const useImageUploaded = (image) => {
   
           const data = await response.json();
           if (data.success) {
+            
             // console.log("uploaded image url", data.data.url);
             setUploadUrl(data.data.url);
+            seLoading(false)
           } else {
             // console.error("uploaded failed", data);
+            seLoading(true)
           }
         } catch (error) {
           console.log(error.message);
@@ -33,7 +38,7 @@ const useImageUploaded = (image) => {
       };
       uploadImage();
 
-      return {uploadUrl , setUploadUrl}
+      return {uploadUrl , setUploadUrl, loading}
 };
 
 export default useImageUploaded;

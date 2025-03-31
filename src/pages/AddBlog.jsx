@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input,
   Select,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
@@ -13,31 +14,42 @@ import { FiUpload } from "react-icons/fi";
 import useAxios from "../hooks/useAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import moment  from  'moment';
+import moment from "moment";
+import useAuth from "./../hooks/useAuth";
 
 const AddBlog = () => {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleClick = () => inputRef.current.click();
-  const { uploadUrl, setUploadUrl } = useImageUploaded(image);
-  const navigate = useNavigate()
-  const categories =["Technology", "Health", "Travel", "Education", "Business", "Lifestyle"];
+  const { uploadUrl, setUploadUrl, loading } = useImageUploaded(image);
+  const navigate = useNavigate();
+  const categories = [
+    "Technology",
+    "Health",
+    "Travel",
+    "Education",
+    "Business",
+    "Lifestyle",
+  ];
   const axiosInstance = useAxios();
-
-console.log(moment().format())
+  const { user } = useAuth();
+  console.log(loading);
 
   const handAddBlog = async (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     const formObject = Object.fromEntries(formData.entries());
-    const formFinalData = { ...formObject, image: uploadUrl, time: moment().format()};
+    const formFinalData = {
+      ...formObject,
+      image: uploadUrl,
+      time: moment().format(),
+      email: user?.email,
+    };
 
     const res = await axiosInstance.post("/add-blog", formFinalData);
 
-
     if (res.data.acknowledged === true) {
-
       form.reset();
       Swal.fire({
         position: "center",
@@ -46,10 +58,10 @@ console.log(moment().format())
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate('/all-blogs')
+      navigate("/all-blogs");
     }
-    setUploadUrl('');
-    setImage('');
+    setUploadUrl("");
+    setImage("");
   };
 
   return (
@@ -152,7 +164,12 @@ console.log(moment().format())
                   transition="all 0.2s"
                   borderColor={"primary"}
                 >
-                  {uploadUrl ? uploadUrl : "Added Blog Image"}
+                  {!image ? (
+                    
+                    "Added Blog Image"
+                  ) : uploadUrl ? uploadUrl : loading && (
+                    <Spinner />
+                  )}
                 </Button>
               </Box>
             </FormControl>
@@ -162,6 +179,7 @@ console.log(moment().format())
               textColor={"light"}
               rounded={"full"}
               type="submit"
+              
             >
               Submit
             </Button>
