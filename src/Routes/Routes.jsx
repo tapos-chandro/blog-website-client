@@ -8,6 +8,8 @@ import AllBlogs from "../pages/AllBlogs";
 import FeaturedBlogs from "../pages/FeaturedBlogs";
 import Wishlist from "../pages/Wishlist";
 import Details from "../pages/Details";
+import BlogUpdate from "../pages/BlogUpdate";
+
 
 
 const router = createBrowserRouter([
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
             {
                 path: "details/:id",
                 element: <Details/>
+            },
+            {
+                path: "update/:id",
+                element: <BlogUpdate/>
             },
         ]
     }

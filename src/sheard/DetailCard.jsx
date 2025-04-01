@@ -1,10 +1,8 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
   Divider,
   Heading,
   Image,
@@ -15,14 +13,13 @@ import {
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import useAuth from "./../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 const DetailCard = ({ detail }) => {
   const { user } = useAuth();
   const axiosInstance = useAxios();
   const [comments, setComments] = useState([])
 
-
-  // _id,title,sortDescription,logDescription,category,image,time,email
 
   const handleComments = (e) => {
     e.preventDefault();
@@ -43,12 +40,12 @@ useEffect(() => {
         setComments(res.data)
         console.log(res.data)
     })
-}, [comments])
+}, [])
 
   return (
-    <Card maxW="4xl" mx={"auto"}>
+    <Card maxW="4xl" mx={"auto"} mt={5}>
       <CardBody>
-        <Image src={detail?.image} alt={detail?.title} borderRadius="lg" />
+        <Image src={detail?.image} alt={detail?.title} borderRadius="lg" w="full"/>
         <Stack mt="6" spacing="3">
           <Heading size="md" textColor={"dark"}>
             {detail?.title}
@@ -56,20 +53,26 @@ useEffect(() => {
           <Text textColor={"dark"}>{detail.sortDescription}</Text>
           <Text textColor={"dark"}>{detail.logDescription}</Text>
         </Stack>
+        {
+          user?.email === detail?.email && <Link to={`/update/${detail?._id}`}><Button bg={"primary"} rounded={"full"} textColor={"light"} mt={"4"}>Update now</Button></Link>
+        }
       </CardBody>
       <Divider textColor={"gray"} />
 
-      {user?.email === detail?.email ? (
+      {user?.email === detail?.email ? <>
         <Text px={4} py={10} fontSize={"lg"} textColor={"dark"}>
           Can not comment on own blog
         </Text>
-      ) : (
+
+        </>
+       : (
         <Box mb={10} mt={3} maxW={"2xl"} px={4}>
           <Text textColor={"dark"} py={4} fontSize={"xl"} fontWeight={"bold"}>Comments </Text>
           <Box mb={4} display={"flex"} gap={2} alignItems={"center"} textColor={"dark"} fontSize={"md"} fontWeight={"medium"}>
             <Image src={user?.photoURL} w={10} h={10} rounded={"full"}  /> 
             <Text>{user?.displayName}</Text>
           </Box>
+     
           <form onSubmit={handleComments}>
             <Textarea
               name="comment"
@@ -96,16 +99,21 @@ useEffect(() => {
           </form>
         </Box>
       )}
-      <Box px={4} gap={4} display={"flex"} flexDirection={"column"}>
+      <Box px={4} gap={4} display={"flex"} flexDirection={"column"} mb={"20"}>
         {
-            comments?.map(comment => <Box key={comment?._id} display={"flex"} flexDirection={"column"} >
+            comments?.map(comment =><> <Box key={comment?._id} display={"flex"} flexDirection={"column"} >
                 <Box display={"flex"} alignItems={"center"} gap={2}>
                 <Image src={comment?.image} w={"10"} h={"10"} rounded={"full"}  /> 
                 <Text>{comment?.name}</Text>
                 </Box>
                 <Text mt={4}>{comment?.comment}</Text>
-            </Box>)
+            </Box>
+            <Divider textColor={"gray"}></Divider>
+            </>
+          )
+           
         }
+       
       </Box>
     </Card>
   );
