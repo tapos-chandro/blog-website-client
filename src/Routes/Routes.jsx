@@ -5,10 +5,10 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AddBlog from "../pages/AddBlog";
 import AllBlogs from "../pages/AllBlogs";
-import FeaturedBlogs from "../pages/FeaturedBlogs";
 import Wishlist from "../pages/Wishlist";
 import Details from "../pages/Details";
 import BlogUpdate from "../pages/BlogUpdate";
+import Featured from "../pages/Featured";
 
 
 
@@ -39,8 +39,8 @@ const router = createBrowserRouter([
                 element: <AllBlogs/>
             },
             {
-                path: "featured-blogs",
-                element: <FeaturedBlogs/>
+                path: "featured",
+                element: <Featured/>
             },
             {
                 path: "wishlist",

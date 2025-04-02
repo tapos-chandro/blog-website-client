@@ -45,6 +45,8 @@ const AddBlog = () => {
       image: uploadUrl,
       time: moment().format(),
       email: user?.email,
+      author: user?.displayName,
+      authorUrl: user?.photoURL
     };
 
     const res = await axiosInstance.post("/add-blog", formFinalData);
