@@ -20,6 +20,7 @@ import {
   FormLabel,
   Text,
   Tooltip,
+  Spinner,
 } from "@chakra-ui/react";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
@@ -33,8 +34,8 @@ import useImageUploaded from "../hooks/useImageUploaded";
 
 const NavBar = () => {
   const { pathname } = useLocation();
-  const { user, updateUserProfile , signOutUser} = useAuth();
-  const [isToggle, setIsToggle] = useState(true);
+  const { user, updateUserProfile, signOutUser } = useAuth();
+  const [isToggle, setIsToggle] = useState(false);
   const theme = useTheme();
   const primaryColor = theme.colors.primary;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,15 +43,13 @@ const NavBar = () => {
   // const [uploadUrl, setUploadUrl] = useState("");
   const inputRef = useRef(null);
   const handleClick = () => inputRef.current.click();
-  const {uploadUrl} = useImageUploaded(image)
+  const { uploadUrl , loading} = useImageUploaded(image);
 
   const handleSignOutUser = () => {
-    signOutUser()
-    .then(()  => {
-      console.log('successfully sign out user')
-
-    })
-  }
+    signOutUser().then(() => {
+      console.log("successfully sign out user");
+    });
+  };
 
   const naveLinks = (
     <>
@@ -69,12 +68,23 @@ const NavBar = () => {
       justifyContent={"center"}
       gap={4}
     >
-      <Button onClick={handleSignOutUser} bg="red" borderRadius={"full"} h="8" color="light">
+      <Button
+        onClick={handleSignOutUser}
+        bg="red"
+        borderRadius={"full"}
+        h="8"
+        color="light"
+      >
         Sign Out
       </Button>
       {user?.photoURL ? (
         <>
-          <Tooltip hasArrow label={user?.displayName} bg="gray.300" color="black">
+          <Tooltip
+            hasArrow
+            label={user?.displayName}
+            bg="gray.300"
+            color="black"
+          >
             <Avatar
               onClick={onOpen}
               _hover={{ cursor: "pointer" }}
@@ -143,8 +153,6 @@ const NavBar = () => {
     });
   };
 
-
-
   return (
     <Box
       as="nav"
@@ -168,16 +176,15 @@ const NavBar = () => {
         {/* Mobile Menu Button */}
         <Box display={{ base: "block", md: "none" }}>
           {isToggle ? (
-   
             <RxCross2
-            style={{ fontSize: "2rem", color: primaryColor }}
-            onClick={() => setIsToggle(!isToggle)}
-          />
+              style={{ fontSize: "2rem", color: primaryColor }}
+              onClick={() => setIsToggle(!isToggle)}
+            />
           ) : (
             <IoMdMenu
-            style={{ fontSize: "2rem", color: primaryColor }}
-            onClick={() => setIsToggle(!isToggle)}
-          />
+              style={{ fontSize: "2rem", color: primaryColor }}
+              onClick={() => setIsToggle(!isToggle)}
+            />
           )}
         </Box>
 
@@ -269,7 +276,11 @@ const NavBar = () => {
                   w="full"
                   transition="all 0.2s"
                 >
-                  Upload Your Profile Image
+                  {!image
+                    ? "Added Blog Image"
+                    : uploadUrl
+                    ? uploadUrl
+                    : loading && <Spinner />}
                 </Button>
               </Box>
               <Box

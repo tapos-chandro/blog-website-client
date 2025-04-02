@@ -1,18 +1,6 @@
 import {
   Box,
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardFooter,
-  Divider,
-  Flex,
   Grid,
-  Heading,
-  Image,
-  Spacer,
-  Stack,
-  Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";

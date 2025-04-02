@@ -33,7 +33,6 @@ const AddBlog = () => {
   ];
   const axiosInstance = useAxios();
   const { user } = useAuth();
-  console.log(loading);
 
   const handAddBlog = async (e) => {
     e.preventDefault();
