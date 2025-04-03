@@ -55,7 +55,7 @@ const Register = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/login");
+          navigate("/");
         }
       })
       .catch((error) => {
@@ -184,7 +184,7 @@ const Register = () => {
             w="full"
             _hover={{ color: "gray" }}
             borderColor={"primary"}
-            onClick={googleLogin}
+            onClick={handleGoogleLogin}
           >
             Continue with Google
           </Button>

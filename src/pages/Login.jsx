@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -24,6 +24,8 @@ const Login = () => {
   const { loginUser, googleLogin } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const location = useLocation();
+  console.log(location)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +54,11 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/");
+          if(location.state){
+            navigate(location?.state);
+          }else{
+            navigate("/");
+          }
         }
       })
       .catch((error) => {
@@ -72,7 +78,11 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/");
+          if(location.state){
+            navigate(location?.state);
+          }else{
+            navigate("/");
+          }
         }
       })
       .catch((error) => {
