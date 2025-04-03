@@ -45,7 +45,8 @@ const AddBlog = () => {
       time: moment().format(),
       email: user?.email,
       author: user?.displayName,
-      authorUrl: user?.photoURL
+      authorUrl: user?.photoURL,
+      commentCount: 0
     };
 
     const res = await axiosInstance.post("/add-blog", formFinalData);
@@ -166,9 +167,12 @@ const AddBlog = () => {
                   borderColor={"primary"}
                 >
                   {!image ? (
-                    
                     "Added Blog Image"
-                  ) : uploadUrl ? uploadUrl : loading && (
+                  ) : loading ? (
+                    <Spinner />
+                  ) : uploadUrl ? (
+                    uploadUrl
+                  ) : (
                     <Spinner />
                   )}
                 </Button>
@@ -180,7 +184,7 @@ const AddBlog = () => {
               textColor={"light"}
               rounded={"full"}
               type="submit"
-              
+              disabled={loading ? true: false}
             >
               Submit
             </Button>

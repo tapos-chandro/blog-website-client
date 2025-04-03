@@ -3,6 +3,7 @@ import NewsLitter from "../components/NewsLitter";
 import Slider from "../components/Slider";
 import BloggingTips from "../components/TrendingBlogs";
 import ResentPosts from "../components/ResentPosts";
+import TrendingBlogs from "../components/TrendingBlogs";
 
 const Home = () => {
 
@@ -12,10 +13,10 @@ const Home = () => {
     <div>
       <Slider></Slider>
       <ResentPosts />
-      <BloggingTips></BloggingTips>
       <Box py={"52"}>
         <NewsLitter titleColor={"dark"} />
       </Box>
+      <TrendingBlogs></TrendingBlogs>
     </div>
   );
 };

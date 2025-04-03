@@ -23,7 +23,7 @@ const DetailCard = ({ detail }) => {
 
   const handleComments = (e) => {
     e.preventDefault();
-    const comment = e.target.comment.value
+    let comment = e.target.comment.value
     const commentsData = {
       id: detail?._id,
       email: user?.email,
@@ -32,11 +32,18 @@ const DetailCard = ({ detail }) => {
       name: user?.displayName,
       time: moment().format()
     };
+
     axiosInstance.post(`/comment`, commentsData).then(() => {
       axiosInstance.get(`/comment/${detail?._id}`).then((res) => {
         setComments(res?.data)
+        e.target.comment.value = ''
       });
     });
+
+    axiosInstance.patch(`/comment/${detail?._id}`)
+    .then(res => {
+      console.log(res)
+    })
   };
 
   useEffect(() => {

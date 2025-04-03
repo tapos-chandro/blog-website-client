@@ -43,7 +43,7 @@ const NavBar = () => {
   // const [uploadUrl, setUploadUrl] = useState("");
   const inputRef = useRef(null);
   const handleClick = () => inputRef.current.click();
-  const { uploadUrl , loading} = useImageUploaded(image);
+  const { uploadUrl, loading } = useImageUploaded(image);
 
   const handleSignOutUser = () => {
     signOutUser().then(() => {
@@ -276,11 +276,15 @@ const NavBar = () => {
                   w="full"
                   transition="all 0.2s"
                 >
-                  {!image
-                    ? "Added Blog Image"
-                    : uploadUrl
-                    ? uploadUrl
-                    : loading && <Spinner />}
+                  {!image ? (
+                    "Added Blog Image"
+                  ) : loading ? (
+                    <Spinner />
+                  ) : uploadUrl ? (
+                    uploadUrl
+                  ) : (
+                    <Spinner />
+                  )}
                 </Button>
               </Box>
               <Box
@@ -297,6 +301,7 @@ const NavBar = () => {
                   borderRadius={"full"}
                   my={4}
                   px={10}
+                  disabled={loading? true: false}
                 >
                   Save
                 </Button>
