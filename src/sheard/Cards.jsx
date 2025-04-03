@@ -16,6 +16,9 @@ import { Link } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import { motion } from "motion/react";
+
+const MotionCards = motion(Card);
 
 const Cards = ({ blog }) => {
   const { title, sortDescription, image, _id } = blog;
@@ -37,8 +40,8 @@ const Cards = ({ blog }) => {
           timer: 1500,
         });
       }
-      console.log(res.data.message)
-      if(res.data.message){
+      console.log(res.data.message);
+      if (res.data.message) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -48,7 +51,13 @@ const Cards = ({ blog }) => {
     });
   };
   return (
-    <Card>
+    <MotionCards
+      initial={{ opacity: 0, y: 100 }} // Fade-in from bottom
+      animate={{ opacity: 1, y: 0 }} // Animate to visible
+      transition={{ duration: 0.2, ease: "easeOut" }} // Smooth transition
+      whileHover={{ scale: 1.05 }} // Slight scale on hover
+      whileInView={{ opacity: 1 }}
+    >
       <CardBody>
         <Image
           src={image}
@@ -96,7 +105,7 @@ const Cards = ({ blog }) => {
           </Box>
         </Flex>
       </CardFooter>
-    </Card>
+    </MotionCards>
   );
 };
 

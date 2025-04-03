@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import NewsLitter from "../components/NewsLitter";
 import Slider from "../components/Slider";
-import BloggingTips from "../components/TrendingBlogs";
 import ResentPosts from "../components/ResentPosts";
 import TrendingBlogs from "../components/TrendingBlogs";
 
