@@ -1,7 +1,6 @@
 import moment from "moment";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
-import useAxios from "../hooks/useAxios";
 import { useEffect, useRef, useState } from "react";
 import useImageUploaded from "../hooks/useImageUploaded";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +15,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FiUpload } from "react-icons/fi";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAxios from "../hooks/useAxios";
 
 const BlogUpdate = () => {
   const inputRef = useRef(null);
@@ -26,10 +27,11 @@ const BlogUpdate = () => {
   const [blog, setBlog] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(blog?.category);
   const [localLoading, setLocalLoading] = useState(true);
-
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { id } = useParams();
+  const email = user?.email;
+  const axiosInstance = useAxios();
 
   const handAddBlog = async (e) => {
     e.preventDefault();
@@ -58,8 +60,7 @@ const BlogUpdate = () => {
   };
 
   useEffect(() => {
-    axiosInstance.get(`/update/${id}`).then((res) => {
-      console.log(res?.data);
+    axiosSecure.get(`/update/${id}?email=${email}`).then((res) => {
       setBlog(res?.data);
       setSelectedCategory(res?.data?.category);
       setLocalLoading(false);

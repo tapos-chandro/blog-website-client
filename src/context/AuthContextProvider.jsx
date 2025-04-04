@@ -1,85 +1,87 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile,  } from 'firebase/auth';
-import React, { createContext, useEffect, useState } from 'react';
-import { auth } from '../firebase/firebase.init';
-
-
-
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import React, { createContext, useEffect, useState } from "react";
+import { auth } from "../firebase/firebase.init";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
-
-const AuthContextProvider = ({children}) => {
-    const googleProvider = new GoogleAuthProvider();
-    const [loading, seLoading] = useState(true);
-    const [user, setUser] = useState(null);
-
+const AuthContextProvider = ({ children }) => {
+  const googleProvider = new GoogleAuthProvider();
+  const [loading, seLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
 
+  const createNewUser = (email, password) => {
+    seLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
 
-    const createNewUser = (email, password) => {
-        seLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password)
+  const loginUser = (email, password) => {
+    seLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-    }
-    const updateUserProfile = (name, photo) => {
-        return updateProfile(auth.currentUser, {displayName: name, photoURL: photo})
-    }
+  const googleLogin = () => {
+    return signInWithPopup(auth, googleProvider);
+  };
 
-    const loginUser = (email, password) => {
-        seLoading(true);
-        return signInWithEmailAndPassword(auth, email, password)
-    }
+  const signOutUser = () => {
+    return signOut(auth);
+  };
 
-    const googleLogin = () => {
-        return signInWithPopup(auth, googleProvider)
-    }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        seLoading(false);
+        const user = { email: currentUser?.email };
+        axios
+          .post("http://localhost:5000/jwt", user, {
+            withCredentials: true,
+          })
+          .then((res) => console.log(res.data));
+      } else {
 
-    const signOutUser = () => {
-        return signOut(auth)
-    }
-
-
+        axios.post('http://localhost:5000/logout',{}, {
+            withCredentials:true
+          })
+          .then(res => console.log(res.data))
     
 
-    useEffect( () => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if(currentUser){
-                setUser(currentUser);
-                seLoading(false);
-                // const updateUserProfile = (name, photo ) => {
-                //     return updateProfile(auth.currentUser{
-                //         console.log()
-                //     })
-                // }
-            }
-            else{
-                setUser(null);
-                seLoading(false);
-            }
-        } ) 
-        return () => unsubscribe();
-    } , []);
+        setUser(null);
+        seLoading(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-    
+  const authInfo = {
+    user,
+    createNewUser,
+    loading,
+    loginUser,
+    googleLogin,
+    updateUserProfile,
+    signOutUser,
+  };
 
-    
-
-    const authInfo = {
-        user,
-        createNewUser,
-        loading,
-        loginUser,
-        googleLogin,
-        updateUserProfile,
-        signOutUser
-    }
-
-
-    return (
-        <AuthContext.Provider value={authInfo}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthContextProvider;

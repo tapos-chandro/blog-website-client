@@ -15,11 +15,15 @@ import useAxios from "../hooks/useAxios";
 import useAuth from "./../hooks/useAuth";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const DetailCard = ({ detail }) => {
   const { user } = useAuth();
   const axiosInstance = useAxios();
   const [comments, setComments] = useState([]);
+  const axiosSecure = useAxiosSecure();
+  const email = user?.email;
+
 
   const handleComments = (e) => {
     e.preventDefault();
@@ -34,7 +38,7 @@ const DetailCard = ({ detail }) => {
     };
 
     axiosInstance.post(`/comment`, commentsData).then(() => {
-      axiosInstance.get(`/comment/${detail?._id}`).then((res) => {
+      axiosSecure.get(`/comment/${detail?._id}?email=${email}`).then((res) => {
         setComments(res?.data)
         e.target.comment.value = ''
       });
@@ -47,7 +51,7 @@ const DetailCard = ({ detail }) => {
   };
 
   useEffect(() => {
-    axiosInstance.get(`/comment/${detail?._id}`).then((res) => {
+    axiosInstance.get(`/comment/${detail?._id}?email=${email}`).then((res) => {
       setComments(res.data.sort((a, b) => b.time - a.time));
     });
   }, []);

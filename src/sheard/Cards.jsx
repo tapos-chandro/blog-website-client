@@ -26,7 +26,6 @@ const Cards = ({ blog }) => {
   const { user } = useAuth();
 
   const handleWishlist = (id) => {
-    console.log(id);
     const { _id, ...rest } = blog;
     const wishlistData = { ...rest, userEmail: user?.email, id: _id };
 
@@ -40,7 +39,7 @@ const Cards = ({ blog }) => {
           timer: 1500,
         });
       }
-      console.log(res.data.message);
+      
       if (res.data.message) {
         Swal.fire({
           icon: "error",

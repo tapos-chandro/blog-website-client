@@ -1,17 +1,21 @@
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useAxios from "../hooks/useAxios";
 import DetailCard from "../sheard/DetailCard";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Details = () => {
   const { id } = useParams();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [detail, setDetail] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
+
+  const email = user?.email
 
   useEffect(() => {
-    axiosInstance.get(`/details/${id}`).then((res) => {
+    axiosSecure.get(`/details/${id}?email=${email}`).then((res) => {
       setDetail(res?.data);
       setLoading(false);
     });

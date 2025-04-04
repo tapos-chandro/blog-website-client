@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Wishlist = () => {
   const [wishlists, setWishlists] = useState([]);
@@ -30,6 +31,7 @@ const Wishlist = () => {
   const email = user?.email;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   const columns = [
     {
@@ -79,7 +81,7 @@ const Wishlist = () => {
 
   useEffect(() => {
     if (!email) return;
-    axiosInstance.get(`/wishlist/?email=${email}`).then((res) => {
+    axiosSecure.get(`/wishlist/?email=${email}`).then((res) => {
       setWishlists(res?.data);
       setLoading(false);
     });
