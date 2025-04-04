@@ -13,7 +13,6 @@ To showcase my skills in modern frontend and backend web development. This platf
 - Blog creation with image uploads
 - User authentication via Firebase
 - Comment system with author restrictions
-- Job listing features
 - Responsive and clean UI built for recruiters
 
 ## 🚀 Key Features
