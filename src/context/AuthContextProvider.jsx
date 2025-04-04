@@ -50,13 +50,13 @@ const AuthContextProvider = ({ children }) => {
         seLoading(false);
         const user = { email: currentUser?.email };
         axios
-          .post("http://localhost:5000/jwt", user, {
+          .post("https://blog-website-server-nu.vercel.app/jwt", user, {
             withCredentials: true,
           })
           .then((res) => console.log(res.data));
       } else {
 
-        axios.post('http://localhost:5000/logout',{}, {
+        axios.post('https://blog-website-server-nu.vercel.app/logout',{}, {
             withCredentials:true
           })
           .then(res => console.log(res.data))

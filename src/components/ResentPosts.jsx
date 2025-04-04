@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";
@@ -10,6 +11,7 @@ import Cards from "../sheard/Cards";
 const ResentPosts = () => {
   const axiosInstance = useAxios();
   const [posts, setPosts] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -17,9 +19,23 @@ const ResentPosts = () => {
     axiosInstance.get("/resent-post")
     .then(res => {
       setPosts(res.data)
+      setLoading(false)
     })
   },[])
 
+
+    if(loading) {
+      return (
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          h={"100vh"}
+          justifyContent={"center"}
+        >
+          <Spinner size="xl" color="primary" textAlign={"center"} />
+        </Box>
+      );
+    }
 
   return (
     <Box>

@@ -9,7 +9,7 @@ const Root = () => {
       <Box height={"50px"}>
         <NavBar />
       </Box>
-      <Container maxW="container.xl" mt={4}>
+      <Container maxW="container.xl" mt={4} mb={"24"}>
         <Box mx={1} p={4}>
           <Outlet />
         </Box>

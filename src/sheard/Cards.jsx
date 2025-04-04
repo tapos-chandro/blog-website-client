@@ -26,6 +26,7 @@ const Cards = ({ blog }) => {
   const { user } = useAuth();
 
   const handleWishlist = (id) => {
+    
     const { _id, ...rest } = blog;
     const wishlistData = { ...rest, userEmail: user?.email, id: _id };
 

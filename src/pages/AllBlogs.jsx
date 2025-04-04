@@ -4,6 +4,7 @@ import { Box, Grid, Input, Spinner, Text } from "@chakra-ui/react";
 import SectionTitle from "../components/SectionTitle";
 import useAxios from "../hooks/useAxios";
 import { FiSearch } from "react-icons/fi";
+import ReactHelmet from "../sheard/ReactHelmet";
 
 const AllBlogs = () => {
   const axiosInstance = useAxios();
@@ -32,6 +33,7 @@ const AllBlogs = () => {
       ) : (
         <Box>
           <SectionTitle title={"All Blogs"} />
+          <ReactHelmet title={"All Blogs"} />
 
           <Box
             display={"flex"}

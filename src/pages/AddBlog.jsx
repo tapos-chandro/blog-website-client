@@ -16,12 +16,14 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import useAuth from "./../hooks/useAuth";
+import { Helmet } from "react-helmet";
+import ReactHelmet from "../sheard/ReactHelmet";
 
 const AddBlog = () => {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleClick = () => inputRef.current.click();
-  const { uploadUrl, setUploadUrl, loading } = useImageUploaded(image);
+  const { uploadUrl, setUploadUrl, loading: imageUploading} = useImageUploaded(image);
   const navigate = useNavigate();
   const categories = [
     "Technology",
@@ -32,7 +34,21 @@ const AddBlog = () => {
     "Lifestyle",
   ];
   const axiosInstance = useAxios();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+
+  if(authLoading) {
+    return (
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        h={"100vh"}
+        justifyContent={"center"}
+      >
+        <Spinner size="xl" color="primary" textAlign={"center"} />
+      </Box>
+    );
+  }
+
 
   const handAddBlog = async (e) => {
     e.preventDefault();
@@ -76,6 +92,7 @@ const AddBlog = () => {
       borderColor={"primary"}
       rounded={"2xl"}
     >
+          <ReactHelmet title={"Add Blog"}></ReactHelmet>
       <Text
         textAlign={"center"}
         fontSize={{ lg: "xl" }}
@@ -168,7 +185,7 @@ const AddBlog = () => {
                 >
                   {!image ? (
                     "Added Blog Image"
-                  ) : loading ? (
+                  ) : imageUploading ? (
                     <Spinner />
                   ) : uploadUrl ? (
                     uploadUrl
@@ -184,7 +201,7 @@ const AddBlog = () => {
               textColor={"light"}
               rounded={"full"}
               type="submit"
-              disabled={loading ? true: false}
+              disabled={imageUploading ? true: false}
             >
               Submit
             </Button>

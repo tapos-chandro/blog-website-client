@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useAxios = () => {
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:5000',
+        baseURL: 'https://blog-website-server-nu.vercel.app',
       });
 
       return axiosInstance

@@ -17,6 +17,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import ReactHelmet from "../sheard/ReactHelmet";
 
 const Featured = () => {
   const [topPosts, setTopPosts] = useState([]);
@@ -73,6 +74,7 @@ const Featured = () => {
       my={5}
       rounded={"2xl"}
     >
+      <ReactHelmet title={"Featured"} />
       <Text
         textAlign={"center"}
         pb={5}

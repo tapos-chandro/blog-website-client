@@ -25,7 +25,7 @@ const DetailCard = ({ detail }) => {
   const email = user?.email;
 
 
-  const handleComments = (e) => {
+  const handleComments = async (e) => {
     e.preventDefault();
     let comment = e.target.comment.value
     const commentsData = {
@@ -37,21 +37,20 @@ const DetailCard = ({ detail }) => {
       time: moment().format()
     };
 
-    axiosInstance.post(`/comment`, commentsData).then(() => {
-      axiosSecure.get(`/comment/${detail?._id}?email=${email}`).then((res) => {
-        setComments(res?.data)
-        e.target.comment.value = ''
-      });
-    });
-
-    axiosInstance.patch(`/comment/${detail?._id}`)
-    .then(res => {
-      console.log(res)
-    })
+    try {
+      await axiosInstance.post(`/comment`, commentsData);  // ✅ Wait for POST request
+      await axiosInstance.patch(`/comment/${detail?._id}`); // ✅ Wait for PATCH request
+  
+      const res = await axiosSecure.get(`/comment/${detail?._id}?email=${email}`);
+      setComments(res?.data);
+      e.target.comment.value = "";  // ✅ Reset input after successful submission
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    }
   };
 
   useEffect(() => {
-    axiosInstance.get(`/comment/${detail?._id}?email=${email}`).then((res) => {
+    axiosSecure.get(`/comment/${detail?._id}?email=${email}`).then((res) => {
       setComments(res.data.sort((a, b) => b.time - a.time));
     });
   }, []);

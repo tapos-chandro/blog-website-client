@@ -1,12 +1,51 @@
-# React + Vite
+# 💼 Job Application System - Blog & Job Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and user-friendly job application system where users can explore blogs, post comments, and manage job listings. Built to impress recruiters and employers with clean design, responsive layout, and secure integration.
 
-Currently, two official plugins are available:
+## 🌐 Live Website
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+👉 [Visit Live Site](https://blog-wibsite.netlify.app)
 
-## Expanding the ESLint configuration
+## 🎯 Purpose
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To showcase my skills in modern frontend and backend web development. This platform is designed to demonstrate:
+
+- Blog creation with image uploads
+- User authentication via Firebase
+- Comment system with author restrictions
+- Job listing features
+- Responsive and clean UI built for recruiters
+
+## 🚀 Key Features
+
+- ✅ **User Authentication** (Firebase)
+- ✅ **Blog CRUD operations**
+- ✅ **Secure Comment System** (Prevent self-commenting)
+- ✅ **Mobile-first Responsive Design**
+- ✅ **Image Upload with Preview**
+- ✅ **User Dashboard & Profile**
+- ✅ **Secure Firebase and MongoDB using `.env`**
+- ✅ **Modern UI** with Chakra UI
+- ✅ **SweetAlert2** for clean and beautiful alerts
+- ✅ **Helmet SEO Integration**
+
+## 📦 Tech Stack & NPM Packages Used
+
+### 💻 Frontend
+- React
+- React Router DOM
+- Chakra UI
+- React Icons
+- Moment.js
+- SweetAlert2
+- React Helmet
+
+### 🔐 Auth
+- Firebase Authentication
+
+### 🌐 Backend
+- Node.js
+- Express.js
+- MongoDB
+- Axios
+

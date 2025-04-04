@@ -23,6 +23,7 @@ import {
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import ReactHelmet from "../sheard/ReactHelmet";
 
 const Wishlist = () => {
   const [wishlists, setWishlists] = useState([]);
@@ -125,6 +126,7 @@ const Wishlist = () => {
   }
   return (
     <>
+    <ReactHelmet title={"Wishlist"} />
     {
       wishlists?.length > 0 ? <TableContainer
       border={"1px"}

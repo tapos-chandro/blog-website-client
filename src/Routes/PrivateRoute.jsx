@@ -5,7 +5,6 @@ import { Box, Spinner } from "@chakra-ui/react";
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const {pathname} = useLocation()
-  console.log(pathname)
 
   if (loading) {
    return <Box
