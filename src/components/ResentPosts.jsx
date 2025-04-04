@@ -3,28 +3,35 @@ import {
   Grid,
   Spinner,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";
 import useAxios from "../hooks/useAxios";
 import Cards from "../sheard/Cards";
+import { useQuery } from '@tanstack/react-query';
 
 const ResentPosts = () => {
   const axiosInstance = useAxios();
-  const [posts, setPosts] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+
+  const { isPending, data:posts } = useQuery({
+    queryKey: ['posts'],
+    queryFn: () =>
+      axiosInstance.get("/resent-post").then((res) =>
+        res.data,
+      ),
+  })
 
 
 
-  useEffect(() => {
-    axiosInstance.get("/resent-post")
-    .then(res => {
-      setPosts(res.data)
-      setLoading(false)
-    })
-  },[])
+  // useEffect(() => {
+  //   axiosInstance.get("/resent-post")
+  //   .then(res => {
+  //     setPosts(res.data)
+  //     setLoading(false)
+  //   })
+  // },[])
 
 
-    if(loading) {
+    if(isPending) {
       return (
         <Box
           display={"flex"}

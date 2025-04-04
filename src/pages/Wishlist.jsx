@@ -34,6 +34,7 @@ const Wishlist = () => {
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
 
+
   const columns = [
     {
       header: "Image",
@@ -81,7 +82,6 @@ const Wishlist = () => {
   });
 
   useEffect(() => {
-    if (!email) return;
     axiosSecure.get(`/wishlist/?email=${email}`).then((res) => {
       setWishlists(res?.data);
       setLoading(false);

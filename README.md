@@ -1,4 +1,4 @@
-# 💼 Job Application System - Blog & Job Portal
+# 💼 Blog Post System - Blog web site
 
 A modern and user-friendly job application system where users can explore blogs, post comments, and manage job listings. Built to impress recruiters and employers with clean design, responsive layout, and secure integration.
 
